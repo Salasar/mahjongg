@@ -1,4 +1,3 @@
-import { miau } from './src/js/controller';
-import { tiles } from './src/js/model/tilesPack';
+import { Game } from './src/js/game';
 
-console.log(tiles)
+$(() => new Game());

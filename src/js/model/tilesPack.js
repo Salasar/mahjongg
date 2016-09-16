@@ -1,6 +1,6 @@
 import { TILES_TYPES } from './tilesTypes';
 
-export let tiles = (() => {
+export let tiles = (function() {
     let result;
 
     for (let type in TILES_TYPES) {
