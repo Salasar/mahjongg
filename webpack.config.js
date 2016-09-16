@@ -12,7 +12,15 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js$/, exclude: /node_modules/, loader: "babel" }
+            { test: /\.js$/, exclude: /node_modules/, loader: "babel" },
+            {
+                test: /\.css/,
+                loaders: ['style', 'css'],
+            },
+            {
+                test: /\.html/,
+                loader: 'html',
+            }
         ]
     },
     devtool: 'source-map',
