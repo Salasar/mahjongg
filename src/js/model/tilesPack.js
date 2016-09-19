@@ -11,7 +11,7 @@ export let tiles = (function() {
         let completePackOfTiles = [...packOfTiles];
 
         if (quantifier) {
-            while (!!--quantifier) {
+            while (--quantifier) {
                 completePackOfTiles = completePackOfTiles.concat(packOfTiles);
             }
 

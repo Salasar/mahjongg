@@ -1,3 +1,7 @@
 import { Game } from './src/js/game';
 
-$(() => new Game());
+$(initGame);
+
+function initGame() {
+    new Game();
+}
