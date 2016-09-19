@@ -6,12 +6,23 @@
     <title>Mahjong game</title>
     <meta name="description" content="mahjong game">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="src/css/main.css">
 </head>
 
 <body>
-    <main class="board">
+    <div class="background">
+        <main id="board" class="board">
+            <div class="board__part board__part_left">
+                <div class="tile"></div>
+            </div>
+            <div id="center" class="board__part board__part_center"></div>
+            <div class="board__part board__part_right">
+                <div class="tile"></div>
+                <div class="tile"></div>
+            </div>
+        </main>
+    </div>
 
-    </main>
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="build/bundle.js"></script>
 </body>

@@ -1,0 +1,46 @@
+html, body, .background, .board {
+    height: 100%;
+    margin: 0;
+}
+
+.background {
+    background: url(img/background.jpg);
+    background-size: cover;
+}
+
+.board {
+    display: flex;
+    justify-content: center;
+}
+
+.board__part {display: flex;align-items: center;}
+
+.board__part_left {
+
+}
+
+.board__part_center {position: relative;}
+
+.board__part_right {
+    
+}
+
+
+.tiles-set, .tiles-set_overlay {
+    border-collapse: collapse;
+    
+}
+
+.tiles-set_overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.tile {
+    width: 7vh;
+    height: 10vh;
+    border: 1px solid;
+    background: aliceblue;
+}
