@@ -1,5 +1,14 @@
 import { TILES_TYPES } from './tilesTypes';
 
+/**
+ * [
+ * { 
+ *      value: tileVal, - value of tile
+ *      type: type - type/suit of tile
+ * }, ...
+ * ]
+ * 
+ */
 export let tiles = (function() {
     let result;
 

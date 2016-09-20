@@ -19,6 +19,14 @@ html, body, .background, .board {
 
 }
 
+.board__part_left > .tile {
+    border-right: 0;
+}
+
+.board__part_right > .tile {
+    border-left: 0;
+}
+
 .board__part_center {position: relative;}
 
 .board__part_right {
@@ -38,9 +46,9 @@ html, body, .background, .board {
     transform: translate(-50%, -50%);
 }
 
-.tile {
-    width: 7vh;
-    height: 10vh;
-    border: 1px solid;
-    background: aliceblue;
+.tile {width: 6vh;height: 9vh;border: 1px solid;background: aliceblue;}
+
+
+.tile_active {
+    background: url(img/tiles.gif) no-repeat;
 }
