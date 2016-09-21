@@ -42,8 +42,8 @@ export class Game {
             function createTilesLayer(param, isOverlay) {
                 let tilesetClass = !isOverlay ? 'tiles-set' : 'tiles-set tiles-set_overlay';
 
-                result += '<table class="' + tilesetClass + '">'
-                    + [...generateRows(param)].join('') + '</table>';
+                result += '<div class="' + tilesetClass + '">'
+                    + [...generateRows(param)].join('') + '</div>';
 
                 return param.NEXT ? createTilesLayer(param.NEXT, true) : result;
             }
@@ -55,7 +55,7 @@ export class Game {
                     let tilesPerRow = tilesPerRows ? tilesPerRows[totalRows - rowsCounter] : cells;
 
 
-                    yield* '<tr>' + [...generateCells(cells, tilesPerRow)].join('') + '</tr>'
+                    yield* '<div class="tiles-row">' + [...generateCells(cells, tilesPerRow)].join('') + '</div>'
                     rowsCounter--;
                 }
             }
@@ -65,9 +65,12 @@ export class Game {
                 let finalIndex = (cellsCounter - tilesPerRow) / 2 + 1;
 
                 while (cellsCounter) {
-                    let tileClass = cellsCounter <= startIndex && cellsCounter >= finalIndex ? 'tile tile_active' : 'tile';
-
-                    yield '<td class="' + tileClass + '"></td>';
+                    if (cellsCounter <= startIndex && cellsCounter >= finalIndex) {
+                        yield '<div class="tile tile_active"><img src="src/css/img/tiles/tiles_01.gif" alt="tile"></div>';
+                    }
+                    else {
+                        yield '<div class="tile"></div>';
+                    }
 
                     cellsCounter--;
                 }

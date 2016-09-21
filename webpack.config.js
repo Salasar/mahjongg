@@ -24,7 +24,7 @@ module.exports = {
                 test: /\.html$/,
                 loader: 'html?name=[name].[ext]',
             },
-            { test: /\.jpg$/, loader: "file?name=css/[name].[ext]" }
+            { test: /\.(jpg|gif)$/, loader: "file?name=css/[name].[ext]" }
         ]
     },
     plugins: [
