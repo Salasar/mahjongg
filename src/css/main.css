@@ -61,13 +61,13 @@ html, body, .background, .board {
 
 .tile {
     height: 9vh;
-    width: 5vh;
+    width: 7vh;
     display: inline-block;
 }
 
 .tile > img {
-    height: 9vh;
-    width: 5.8vh;
+    height: 11vh;
+    width: 7.8vh;
     user-drag: none;
     user-select: none;
 }
@@ -75,5 +75,5 @@ html, body, .background, .board {
 
 .tiles-row {
     position: relative;
-    height: 8.2vh;
+    height: 10.2vh;
 }
