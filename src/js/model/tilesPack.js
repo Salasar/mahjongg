@@ -1,22 +1,17 @@
-import { TILES_TYPES } from './tilesTypes';
+import { TILES_TYPES, TILE_IMG } from './tiles';
 
-/**
- * [
- * { 
- *      value: tileVal, - value of tile
- *      type: type - type/suit of tile
- * }, ...
- * ]
- * 
- */
 export let tiles = (function() {
     let result;
 
     for (let type in TILES_TYPES) {
         let quantifier = TILES_TYPES[type].QUANTIFIER;
-        let packOfTiles = [...TILES_TYPES[type].VALUES].map((tileVal) => {
-            return { value: tileVal, type: type };
+
+        let imgPath = TILE_IMG.PATH + TILES_TYPES[type].IMG_PREFIX;
+
+        let packOfTiles = [...TILES_TYPES[type].VALUES].map((tileVal, index) => {
+            return { value: tileVal, type: type, imgPath: imgPath + ++index + TILE_IMG.EXT };
         });
+
         let completePackOfTiles = [...packOfTiles];
 
         if (quantifier) {

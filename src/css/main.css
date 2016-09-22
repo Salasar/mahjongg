@@ -45,12 +45,12 @@ html, body, .background, .board {
 }
 
 .tiles-set_overlay:nth-of-type(3) {
-    top: 48.8%;
+    top: 48.4%;
     left: 48%;
 }
 
 .tiles-set_overlay:nth-of-type(4) {
-    top: 48.2%;
+    top: 47.8%;
     left: 47%;
 }
 
@@ -75,5 +75,5 @@ html, body, .background, .board {
 
 .tiles-row {
     position: relative;
-    height: 10.2vh;
+    height: 10.1vh;
 }

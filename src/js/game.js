@@ -1,13 +1,15 @@
 import { tiles } from './model/tilesPack';
 
+console.log(tiles)
+
 export class Game {
     constructor() {
         this.$board = $('#board');
 
-        this.prepareBoard();
-        this.placeTiles();
+        this._prepareBoard();
+        this._placeTiles();
     }
-    prepareBoard() {
+    _prepareBoard() {
         const TILES_SET = {
             ROWS: 8,
             CELLS: 12,
@@ -66,7 +68,7 @@ export class Game {
 
                 while (cellsCounter) {
                     if (cellsCounter <= startIndex && cellsCounter >= finalIndex) {
-                        yield '<div class="tile tile_active"><img src="src/css/img/tiles/tiles_01.gif" alt="tile"></div>';
+                        yield '<div class="tile tile_active"></div>';
                     }
                     else {
                         yield '<div class="tile"></div>';
@@ -81,11 +83,12 @@ export class Game {
 
         $centerOfBoard.append(centralTilesHtml);
     }
-    placeTiles() {
+    _placeTiles() {
         let $tilesPlaces = this.$board.find('.tile_active');
 
         $tilesPlaces.each(function(index) {
-            $(this).data({ value: tiles[index].value, type: tiles[index].type });
+            $(this).append($('<img>', {alt: 'tile', src: tiles[index].imgPath }))
+                .data({ value: tiles[index].value, type: tiles[index].type });
         })
     }
     renderTile() {
