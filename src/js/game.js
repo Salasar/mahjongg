@@ -172,10 +172,12 @@ export class Game {
 
             let isLeftPartHasTile = $('#left').children('div.tile').length;
             let isRightPartHasTile = $('#right').children('div.tile').length;
+
             let isCentralRowNotAvailable = (isLeftPartHasTile && $target.is($firstAvailableTile)) || (isRightPartHasTile && $target.is($lastAvailableTile));
+            let isRightRowFirstTileAvailable = $target.parents('#right').length && $target.siblings('.tile').length && $target.is($firstAvailableTile);
 
             if ($tilesSet.index() === 0 && isCentralRowNotAvailable && ~$.inArray(rowNumber, closedRowsNumbers)) return;
-            if ($target.parents('#right').length && $target.is($firstAvailableTile)) return;
+            if (isRightRowFirstTileAvailable) return;
 
             return ($target.is($firstAvailableTile) || $target.is($lastAvailableTile));
         }
