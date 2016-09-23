@@ -29,44 +29,41 @@ html, body, .background, .board {
 
 .board__part_right {z-index: 1;}
 
-.tiles-set, .tiles-set_overlay {
-}
-
-.tiles-set_overlay {
+.tileset_overlay {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.tiles-set_overlay:nth-of-type(2) {
+.tileset_overlay:nth-of-type(2) {
     top: 49.3%;
     left: 49%;
 }
 
-.tiles-set_overlay:nth-of-type(3) {
+.tileset_overlay:nth-of-type(3) {
     top: 48.4%;
     left: 48%;
 }
 
-.tiles-set_overlay:nth-of-type(4) {
+.tileset_overlay:nth-of-type(4) {
     top: 47.8%;
     left: 47%;
 }
 
-.tiles-set_overlay:nth-of-type(5) {
+.tileset_overlay:nth-of-type(5) {
     top: 47%;
     left: 46.5%;
 }
 
-.tile {
+.cell {
     height: 11vh;
     width: 7vh;
     display: inline-block;
     position: relative;
 }
 
-.tile > img {
+.cell > img {
     height: 11vh;
     width: 7.8vh;
     user-drag: none;

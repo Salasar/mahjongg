@@ -1,14 +1,17 @@
-import { tiles } from './model/tilesPack';
+import {tiles} from './model/tilesPack';
 
-console.log(tiles)
+var shuffle = require('shuffle-array');
 
 export class Game {
     constructor() {
         this.$board = $('#board');
+        this.$centerOfBoard = $('#center');
 
         this._prepareBoard();
         this._placeTiles();
+        this._addHandlers();
     }
+
     _prepareBoard() {
         const TILES_SET = {
             ROWS: 8,
@@ -33,8 +36,6 @@ export class Game {
 
         };
 
-        let $centerOfBoard = $('#center');
-
         /**
          * Generates board markup
          */
@@ -42,7 +43,7 @@ export class Game {
             let result = '';
 
             function createTilesLayer(param, isOverlay) {
-                let tilesetClass = !isOverlay ? 'tiles-set' : 'tiles-set tiles-set_overlay';
+                let tilesetClass = !isOverlay ? 'tileset' : 'tileset tileset_overlay';
 
                 result += '<div class="' + tilesetClass + '">'
                     + [...generateRows(param)].join('') + '</div>';
@@ -50,7 +51,7 @@ export class Game {
                 return param.NEXT ? createTilesLayer(param.NEXT, true) : result;
             }
 
-            function* generateRows({ ROWS: rowsCounter, CELLS: cells, TILES_PER_ROWS: tilesPerRows }) {
+            function* generateRows({ROWS: rowsCounter, CELLS: cells, TILES_PER_ROWS: tilesPerRows}) {
                 var totalRows = rowsCounter;
 
                 while (rowsCounter) {
@@ -68,10 +69,10 @@ export class Game {
 
                 while (cellsCounter) {
                     if (cellsCounter <= startIndex && cellsCounter >= finalIndex) {
-                        yield '<div class="tile tile_active"></div>';
+                        yield '<div class="cell tile"></div>';
                     }
                     else {
-                        yield '<div class="tile"></div>';
+                        yield '<div class="cell"></div>';
                     }
 
                     cellsCounter--;
@@ -81,17 +82,92 @@ export class Game {
             return createTilesLayer(tilesParams);
         })(TILES_SET);
 
-        $centerOfBoard.append(centralTilesHtml);
+        this.$centerOfBoard.append(centralTilesHtml);
     }
-    _placeTiles() {
-        let $tilesPlaces = this.$board.find('.tile_active');
 
-        $tilesPlaces.each(function(index) {
-            $(this).append($('<img>', {alt: 'tile', src: tiles[index].imgPath }))
-                .data({ value: tiles[index].value, type: tiles[index].type });
+    _placeTiles() {
+        let $tilesPlaces = this.$board.find('div.tile');
+
+        let shuffledTiles = /*shuffle(tiles)*/tiles;
+
+        $tilesPlaces.each(function (index) {
+            $(this).append($('<img>', {alt: 'tile', src: shuffledTiles[index].imgPath}))
+                .data({value: shuffledTiles[index].value, type: shuffledTiles[index].type});
         })
     }
-    renderTile() {
+
+    _addHandlers() {
+        let $selectedTile = null;
+        let $selectionFrame = $('<div></div>', {class: 'frame'});
+
+        this.$board.on('click', function (event) {
+            let $targetTile = $(event.target).parent();
+
+            if (isAvailableTile($targetTile)) {
+                if (!$selectedTile) {
+                    $selectedTile = $targetTile;
+
+                    addSelection($selectedTile);
+                }
+                else {
+                    if ($selectedTile.is($targetTile)) {
+
+                        clearSelection();
+                    }
+                    else if (isTilesEqual($selectedTile, $targetTile)) {
+                        console.log('s')
+
+                        clearSelection();
+                    }
+                    else {
+                        $selectedTile = $targetTile;
+
+                        addSelection($selectedTile);
+                    }
+                }
+            }
+        });
+
+        function isTilesEqual($selectedTile, $targetTile) {
+            let selectedTileData = $selectedTile.data();
+            let targetData = $targetTile.data();
+
+            return selectedTileData.value === targetData.value
+                && selectedTileData.type === targetData.type;
+        }
+
+        function isAvailableTile($target) {
+            if (!$target.is('div.tile')) return false;
+
+            let $parent = $target.parent();
+            let $tilesSet = $target.parents('.tileset');
+
+            if (!$tilesSet) return false;
+
+            let $firstAvailableTile = $parent.find('div.tile:first');
+            let $lastAvailableTile = $parent.find('div.tile:last');
+
+            let rowNumber = $parent.index();
+            let closedRowsNumbers = [3, 4];
+
+            let isLeftPartHasTile = $('#left').children('div.tile').length;
+            let isRightPartHasTile = $('#right').children('div.tile').length;
+            let isCentralRowNotAvailable = (isLeftPartHasTile && $target.is($firstAvailableTile)) || (isRightPartHasTile && $target.is($lastAvailableTile));
+
+            if ($tilesSet.index() === 0 && isCentralRowNotAvailable && ~$.inArray(rowNumber, closedRowsNumbers)) return;
+            if ($target.parents('#right').length && $target.is($firstAvailableTile)) return;
+
+            return ($target.is($firstAvailableTile) || $target.is($lastAvailableTile));
+        }
+
+        function addSelection() {
+            $selectedTile.append($selectionFrame);
+        }
+
+        function clearSelection() {
+            $selectedTile = null;
+            $selectionFrame.remove();
+        }
 
     }
 }
