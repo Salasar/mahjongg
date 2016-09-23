@@ -26,11 +26,11 @@ export const TILES_TYPES = {
     },
     FLOWER: {
         IMG_PREFIX: 'tiles_6',
-        VALUES: [...generateTilesValues(4)],
+        VALUES: Array(4).fill(1)
     },
     SEASON: {
         IMG_PREFIX: 'tiles_5',
-        VALUES: [...generateTilesValues(4)],
+        VALUES: Array(4).fill(1)
     }
 };
 
@@ -39,7 +39,7 @@ export const TILE_IMG = {
     EXT: '.gif'
 };
 
-function* generateTilesValues(n) {
+function* generateTilesValues(n, isSameValues) {
     for (let i = 1; i <= n; i++) {
         yield i;
     }

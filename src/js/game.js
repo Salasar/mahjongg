@@ -88,7 +88,7 @@ export class Game {
     _placeTiles() {
         let $tilesPlaces = this.$board.find('div.tile');
 
-        let shuffledTiles = /*shuffle(tiles)*/tiles;
+        let shuffledTiles = shuffle(tiles);
 
         $tilesPlaces.each(function (index) {
             $(this).append($('<img>', {alt: 'tile', src: shuffledTiles[index].imgPath}))
@@ -99,34 +99,54 @@ export class Game {
     _addHandlers() {
         let $selectedTile = null;
         let $selectionFrame = $('<div></div>', {class: 'frame'});
+        let coords = { clientX: undefined, clientY: undefined };
 
         this.$board.on('click', function (event) {
-            let $targetTile = $(event.target).parent();
+            let $targetContainer = $(event.target).parent();
 
-            if (isAvailableTile($targetTile)) {
+            if (event.clientX && event.clientY) {
+                coords.clientX = event.clientX;
+                coords.clientY = event.clientY;
+            }
+
+            if ($targetContainer.hasClass('tiles-row')) {
+                let $overlay = $targetContainer.parents('.tileset_overlay');
+
+                $overlay.hide();console.log($(document.elementFromPoint(event.clientX, event.clientY)))
+                $(document.elementFromPoint(coords.clientX, coords.clientY)).trigger("click");
+                $overlay.show();
+
+                return;
+            }
+
+            if (isAvailableTile($targetContainer)) {
                 if (!$selectedTile) {
-                    $selectedTile = $targetTile;
+                    $selectedTile = $targetContainer;
 
                     addSelection($selectedTile);
                 }
                 else {
-                    if ($selectedTile.is($targetTile)) {
-
+                    if ($selectedTile.is($targetContainer)) {
                         clearSelection();
                     }
-                    else if (isTilesEqual($selectedTile, $targetTile)) {
-                        console.log('s')
-
+                    else if (isTilesEqual($selectedTile, $targetContainer)) {
+                        removeTiles($selectedTile, $targetContainer);
                         clearSelection();
                     }
                     else {
-                        $selectedTile = $targetTile;
+                        $selectedTile = $targetContainer;
 
                         addSelection($selectedTile);
                     }
                 }
             }
         });
+
+        function removeTiles($selectedTile, $targetTile) {
+            $.each(arguments, function(index, $tile) {
+                $tile.removeClass('tile').children().remove();
+            });
+        }
 
         function isTilesEqual($selectedTile, $targetTile) {
             let selectedTileData = $selectedTile.data();
