@@ -63,6 +63,7 @@ html, body, .background, .board {
     height: 11vh;
     width: 7vh;
     display: inline-block;
+    position: relative;
 }
 
 .tile > img {
@@ -76,4 +77,14 @@ html, body, .background, .board {
 .tiles-row {
     position: relative;
     height: 10.1vh;
+}
+
+
+.frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0.9vh;
+    border: 3px solid blue;
 }
