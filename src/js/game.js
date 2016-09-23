@@ -52,7 +52,7 @@ export class Game {
             }
 
             function* generateRows({ROWS: rowsCounter, CELLS: cells, TILES_PER_ROWS: tilesPerRows}) {
-                var totalRows = rowsCounter;
+                let totalRows = rowsCounter;
 
                 while (rowsCounter) {
                     let tilesPerRow = tilesPerRows ? tilesPerRows[totalRows - rowsCounter] : cells;
@@ -104,22 +104,22 @@ export class Game {
         this.$board.on('click', function (event) {
             let $targetContainer = $(event.target).parent();
 
-            if (event.clientX && event.clientY) {
-                coords.clientX = event.clientX;
-                coords.clientY = event.clientY;
-            }
-
-            if ($targetContainer.hasClass('tiles-row')) {
-                let $overlay = $targetContainer.parents('.tileset_overlay');
-
-                $overlay.hide();console.log($(document.elementFromPoint(event.clientX, event.clientY)))
-                $(document.elementFromPoint(coords.clientX, coords.clientY)).trigger("click");
-                $overlay.show();
-
-                return;
-            }
-
             if (isAvailableTile($targetContainer)) {
+                if (event.clientX && event.clientY) {
+                    coords.clientX = event.clientX;
+                    coords.clientY = event.clientY;
+                }
+
+                if ($targetContainer.hasClass('tiles-row')) {
+                    let $overlay = $targetContainer.parents('.tileset_overlay');
+
+                    $overlay.hide();
+                    $(document.elementFromPoint(coords.clientX, coords.clientY)).trigger("click");
+                    $overlay.show();
+
+                    return;
+                }
+
                 if (!$selectedTile) {
                     $selectedTile = $targetContainer;
 
