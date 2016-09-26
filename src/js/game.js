@@ -104,22 +104,25 @@ export class Game {
         this.$board.on('click', function (event) {
             let $targetContainer = $(event.target).parent();
 
+            // Saves coords for recursive call of event handler on underlying element
+            if (event.clientX && event.clientY) {
+                coords.clientX = event.clientX;
+                coords.clientY = event.clientY;
+            }
+
+            if ($targetContainer.hasClass('tiles-row')) {
+                let $overlay = $targetContainer.parents('.tileset_overlay');
+
+                if (!$overlay.length) return;
+
+                $overlay.hide();
+                $(document.elementFromPoint(coords.clientX, coords.clientY)).trigger("click");
+                $overlay.show();
+
+                return;
+            }
+
             if (isAvailableTile($targetContainer)) {
-                if (event.clientX && event.clientY) {
-                    coords.clientX = event.clientX;
-                    coords.clientY = event.clientY;
-                }
-
-                if ($targetContainer.hasClass('tiles-row')) {
-                    let $overlay = $targetContainer.parents('.tileset_overlay');
-
-                    $overlay.hide();
-                    $(document.elementFromPoint(coords.clientX, coords.clientY)).trigger("click");
-                    $overlay.show();
-
-                    return;
-                }
-
                 if (!$selectedTile) {
                     $selectedTile = $targetContainer;
 
@@ -162,7 +165,12 @@ export class Game {
             let $parent = $target.parent();
             let $tilesSet = $target.parents('.tileset');
 
-            if (!$tilesSet) return false;
+            // Click outside tiles
+            if (!$tilesSet) return;
+
+            let isSecondLayerBlockedByFirst = $tilesSet.index() === 3 && $('.tileset').eq(4).find('div.tile').length;
+
+            if (isSecondLayerBlockedByFirst) return;
 
             let $firstAvailableTile = $parent.find('div.tile:first');
             let $lastAvailableTile = $parent.find('div.tile:last');
@@ -170,14 +178,15 @@ export class Game {
             let rowNumber = $parent.index();
             let closedRowsNumbers = [3, 4];
 
-            let isLeftPartHasTile = $('#left').children('div.tile').length;
-            let isRightPartHasTile = $('#right').children('div.tile').length;
+            let isLeftPartHasTile = $('#left').find('div.tile').length;
+            let isRightPartHasTile = $('#right').find('div.tile').length;
 
+            let isUndermostTileset = $tilesSet.index() === 0;
             let isCentralRowNotAvailable = (isLeftPartHasTile && $target.is($firstAvailableTile)) || (isRightPartHasTile && $target.is($lastAvailableTile));
-            let isRightRowFirstTileAvailable = $target.parents('#right').length && $target.siblings('.tile').length && $target.is($firstAvailableTile);
+            let isFirstElemenOfRightRowNotAvailable = $target.parents('#right').length && $target.siblings('.tile').length && $target.is($firstAvailableTile);
 
-            if ($tilesSet.index() === 0 && isCentralRowNotAvailable && ~$.inArray(rowNumber, closedRowsNumbers)) return;
-            if (isRightRowFirstTileAvailable) return;
+            if (isUndermostTileset && isCentralRowNotAvailable && ~$.inArray(rowNumber, closedRowsNumbers)) return;
+            if (isFirstElemenOfRightRowNotAvailable) return;
 
             return ($target.is($firstAvailableTile) || $target.is($lastAvailableTile));
         }
@@ -190,6 +199,5 @@ export class Game {
             $selectedTile = null;
             $selectionFrame.remove();
         }
-
     }
 }
