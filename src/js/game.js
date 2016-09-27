@@ -4,6 +4,8 @@ var shuffle = require('shuffle-array');
 
 export class Game {
     constructor() {
+        this.tilesCount = tiles.length;
+
         this.$board = $('#board');
         this.$centerOfBoard = $('#center');
 
@@ -97,6 +99,8 @@ export class Game {
     }
 
     _addHandlers() {
+        let self = this;
+
         let $selectedTile = null;
         let $selectionFrame = $('<div></div>', {class: 'frame'});
         let coords = { clientX: undefined, clientY: undefined };
@@ -135,6 +139,12 @@ export class Game {
                     else if (isTilesEqual($selectedTile, $targetContainer)) {
                         removeTiles($selectedTile, $targetContainer);
                         clearSelection();
+
+                        if (self.tilesCount === 0) {
+                            alert('You are the winner!');
+
+                            location.reload();
+                        }
                     }
                     else {
                         $selectedTile = $targetContainer;
@@ -148,6 +158,7 @@ export class Game {
         function removeTiles($selectedTile, $targetTile) {
             $.each(arguments, function(index, $tile) {
                 $tile.removeClass('tile').children().remove();
+                --self.tilesCount;
             });
         }
 

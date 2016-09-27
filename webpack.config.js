@@ -30,9 +30,9 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin("css/bundle.css"),
         new WebpackCleanupPlugin({quiet: true}),
-        new HtmlWebpackPlugin({
+        /*new HtmlWebpackPlugin({
             template: 'index.html'
-        })
+        })*/
     ],
     devtool: 'source-map',
     watch: true
