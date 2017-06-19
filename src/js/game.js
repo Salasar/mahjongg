@@ -194,10 +194,10 @@ export class Game {
 
             let isUndermostTileset = $tilesSet.index() === 0;
             let isCentralRowNotAvailable = (isLeftPartHasTile && $target.is($firstAvailableTile)) || (isRightPartHasTile && $target.is($lastAvailableTile));
-            let isFirstElemenOfRightRowNotAvailable = $target.parents('#right').length && $target.siblings('.tile').length && $target.is($firstAvailableTile);
+            let isFirstElementOfRightRowNotAvailable = $target.parents('#right').length && $target.siblings('.tile').length && $target.is($firstAvailableTile);
 
             if (isUndermostTileset && isCentralRowNotAvailable && ~$.inArray(rowNumber, closedRowsNumbers)) return;
-            if (isFirstElemenOfRightRowNotAvailable) return;
+            if (isFirstElementOfRightRowNotAvailable) return;
 
             return ($target.is($firstAvailableTile) || $target.is($lastAvailableTile));
         }
