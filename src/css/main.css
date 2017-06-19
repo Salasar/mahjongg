@@ -2,6 +2,9 @@ html, body, .background, .board {
     height: 100vh;
     margin: 0;
     overflow: auto;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .background {
@@ -86,6 +89,7 @@ and (min-height: 1024px) {
     height: 11vh;
     width: 7.8vh;
     user-drag: none;
+    -webkit-user-drag: none;
     user-select: none;
 }
 
