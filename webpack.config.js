@@ -1,14 +1,13 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var WebpackBrowserPlugin = require('webpack-browser-plugin');
 
 module.exports = {
     entry: ['babel-polyfill', './main.js'],
     output: {
         path: 'build',
-        filename: 'bundle.js',
-        publicPath: 'build/',
+        filename: 'bundle.js'
     },
     devServer: {
         inline: true
@@ -28,11 +27,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new WebpackBrowserPlugin(),
         new ExtractTextPlugin("css/bundle.css"),
         new WebpackCleanupPlugin({quiet: true}),
-        /*new HtmlWebpackPlugin({
-            template: 'index.html'
-        })*/
     ],
     devtool: 'source-map',
     watch: true
